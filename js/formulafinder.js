@@ -18,7 +18,7 @@ app.service('copyright', function(){
 app.factory('loadSrc', ["$http", function($http){
 	return {
 		formulas: function(){ 
-			return $http.get('./src/sanghan_formulas.json')
+			return $http.get('src/sanghan_formulas.json')
 		}
 	}
 }])
