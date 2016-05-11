@@ -1,0 +1,93 @@
+<!doctype html>
+<html ng-app="gofangApp">
+	<head>
+		<meta charset="utf-8">
+        <title>goFang</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+		<link rel="stylesheet" href="../publicAsset/ng-modules/ng-tags-input/ng-tags-input.min.css">
+		<link rel="stylesheet" href="../publicAsset/css/sticky-footer.css">	
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">	
+	</head>
+	<body ng-controller="FormulaCtrl">
+		<header>
+		<div class="jumbotron">
+			<div class="container">
+                <div class="row">
+                    <div class="col-sm-6 col-xs-8">
+                        <h1>goFang <button class="btn btn-primary btn-lg" ng-click="resetForms()">Reset</button></h1>
+                        <p>고방<small>(상한,금궤)</small> 검색기</p>
+                    </div>
+                    <div class="col-sm-6 col-xs-4">
+                        <img src="http://livedoor.blogimg.jp/bakusei/imgs/c/a/cacbdc7e.jpg" alt="" width="160px" class="pull-right img-responsive img-rounded">
+                    </div>
+                </div>
+				<div class="row" ng-show="gotData">
+					<div class="col-sm-6">
+						<tags-input ng-model="inHerbs" placeholder="포함하는 본초" min-length=1 display-property="herbs" on-tag-added="find()" on-tag-removed="find()">
+							<auto-complete source="loadItems($query, 'herbs')" min-length=1 debounce-delay=50></auto-complete>
+						</tags-input>
+						<tags-input ng-model="outHerbs" placeholder="제외하는 본초" min-length=1 display-property="herbs" on-tag-added="find()" on-tag-removed="find()">
+							<auto-complete source="loadItems($query, 'herbs')" min-length=1 debounce-delay=50></auto-complete>
+						</tags-input>
+					</div>
+					<div class="col-sm-6">
+						<tags-input ng-model="inSymp" placeholder="찾는 증상" min-length=1 display-property="symptoms" on-tag-added="findHerbsymp()" on-tag-removed="findHerbsymp()">
+							<auto-complete source="loadItems($query, 'symptoms')" min-length=1 debounce-delay=50></auto-complete>
+						</tags-input>
+						<button class="btn btn-warning" ng-repeat="symp in symptoms" ng-bind="symp"></button>
+						<button class="btn btn-success" ng-repeat="hbsy in herbssymptoms" ng-click="addHerb(hbsy)" ng-bind="hbsy"></button>
+					</div>
+				</div>
+            </div>
+		</div>
+		</header>
+		
+		<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="well" id="formulaDetail">
+					<p ng-bind="'처방명 : ' + detail.txName"></p>
+					<p ng-bind="'방극 : ' + detail.txFangi"><p>
+					<p ng-bind="'방극산정 : ' + detail.txFangiExt"><p>
+					<p ng-bind="'구성 : ' + detail.txGoo"><p>
+					<button type="button" class="btn btn-default" ng-repeat="h in herbdetails" ng-class="{'btn-info': $index===yackIdx}" ng-click="showHerbDetail(h, $index)" ng-bind="h"></button>
+					<blockquote><p ng-bind="yack"></p></blockquote>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div clsss="list-group">
+					<a href="#formulaDetail" class="list-group-item" ng-class="{'active': $index===fmlIdx}" ng-repeat="formula in results" ng-click="showDetail(formula, $index)" ng-bind="formula"></a>
+				</div>
+	  		</div>
+		</div>
+
+		</div><!--container-fluid-->
+        
+		<footer class="footer">
+			<div class="container">
+				<p class="text-muted">
+					&copy; {{copyrightYear}} Junho <a href='https://pinedance.github.io/blog/' target='_blank'><kbd>Blog</kbd></a><span  class="text-center"> 
+					/ Contact or Report issue : <a href='https://github.com/pinedance/spa/issues' target='_blank'><kbd>Github</kbd></a></span>
+				</p>
+				<!--<small class="text-muted">This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</small>-->
+			</div>
+		</footer>
+		
+<!--   script............................................................................................-->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular.min.js"></script>
+		
+		<script src="https://cdn.firebase.com/js/client/2.0.4/firebase.js"></script>
+		<script src="https://cdn.firebase.com/libs/angularfire/0.9.1/angularfire.min.js"></script>
+
+		<script src="../publicAsset/javascript/exArray.js"></script>
+		<script src="../publicAsset/ng-modules/ng-tags-input/ng-tags-input.min.js"></script>
+
+<!--   script............................................................................................-->		
+		
+		<script src="formulafinder.js"></script>
+
+	</body>
+</html>
