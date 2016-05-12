@@ -133,7 +133,7 @@ app.controller('FormulaCtrl', ['$scope', '$q', 'loadSrc', 'copyright', '$uibModa
       animation: false,
       templateUrl: 'html/modal.html',
       controller: 'fangDetailCtrl',
-      // size: "",
+      size: "sm",
       resolve: {
         data: function () { return data },
         params: function() {return {formula: formula, index: index} }

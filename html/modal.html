@@ -1,13 +1,16 @@
 <div class="modal-header">
-    <h3 class="modal-title" ng-bind="detail.txName"></h3>
+    <h3 class="modal-title">
+      <!-- <small> -->
+        <button class="btn btn-primary btn-sm" type="button" ng-click="close()">close</button>
+      <!-- </small> -->
+      {{ detail.txName }}
+    </h3>
 </div>
 <div class="modal-body">
     <p ng-bind="'방극 : ' + detail.txFangi"><p>
     <p ng-bind="'방극산정 : ' + detail.txFangiExt"><p>
     <p ng-bind="'구성 : ' + detail.txGoo"><p>
-    <button type="button" class="btn btn-default" ng-repeat="h in herbdetails" ng-class="{'btn-info': $index===yackIdx}" ng-click="showHerbDetail(h, $index)" ng-bind="h"></button>
+    <button type="button" class="btn btn-default btn-sm" ng-repeat="h in herbdetails" ng-class="{'btn-info': $index===yackIdx}" ng-click="showHerbDetail(h, $index)" ng-bind="h"></button>
     <blockquote><p ng-bind="yack"></p></blockquote>
 </div>
-<div class="modal-footer">
-    <button class="btn btn-primary" type="button" ng-click="close()">close</button>
-</div>
+<!-- <div class="modal-footer"></div> -->
