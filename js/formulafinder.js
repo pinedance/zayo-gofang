@@ -6,14 +6,10 @@ app.config(['$compileProvider', function ($compileProvider) {
 
 app.service('copyright', function(){
 	this.year = function(startYear){
-		var thisYear = new Date().getFullYear();
-		if (thisYear > startYear) {
-			return(startYear + '-' + thisYear);
-		} else {
-			return(thisYear);
-		}
-	};
-});
+		let thisYear = new Date().getFullYear();
+		let expression = (thisYear > startYear)? (startYear + '-' + thisYear) : thisYear;
+		return expression;
+}});
 
 app.factory('loadSrc', ["$http", function($http){
 	return {
@@ -38,7 +34,18 @@ app.controller('FormulaCtrl', ['$scope', '$q', 'loadSrc', 'copyright', '$uibModa
 			symptoms: Object.keys(d.symptoms)
 		}
 		$scope.gotData = true
+    initDatas()
+    $scope.searchBy(0)
 	})
+
+  function initDatas(){
+      $scope.formulas = keys.formulas
+  }
+
+  $scope.searchOpts = [
+      {label: '본초구성'},
+      {label: '처방이름'},
+  ]
 
   $scope.reload = function(){
     $window.location.reload();
@@ -55,45 +62,46 @@ app.controller('FormulaCtrl', ['$scope', '$q', 'loadSrc', 'copyright', '$uibModa
 		return deferred.promise;
 	};  // solution : http://stackoverflow.com/questions/23069562/autocomplete-using-ngtagsinput-cannot-read-property-then-of-undefined
 
-  $scope.searchOpts = [
-      {label: '본초구성'},
-      {label: '처방이름'},
-  ]
-
-  $scope.searchTab = 0
-
   $scope.searchBy = function(idx){
-    $scope.resetForms()
     $scope.searchByWhat = $scope.searchOpts[idx].label
     $scope.searchTab = idx
+    delete $scope.fmlIdx
   }
 
-	$scope.find = function(){
-		var tmp_in = $scope.inHerbs.map(function(item) { return item.herbs });
-		var tmp_out = $scope.outHerbs.map(function(item) { return item.herbs });
+  $scope.find = function(){
+		let tmp_in = $scope.inHerbs.map(function(item) { return item.herbs });
+		let tmp_out = $scope.outHerbs.map(function(item) { return item.herbs });
+    let _formula = $scope.formulaName.map(function(item) { return item.formulas });
+    let tmp_formula = _formula.filter(function(item){ return keys.formulas.indexOf(item) > -1})
 
-		if ( (tmp_in.length + tmp_out.length)==0 ){
-			$scope.results = [];
-		} else {
-			var handler = Object.keys(data.formulas);
+		if ( (tmp_in.length + tmp_out.length)===0 ){
+      $scope.results = tmp_formula;
+      delete $scope.fmlIdx
+      return;
+    }
 
-			for (var i=0; i < tmp_in.length ; i++){
-				if (data.herbs[tmp_in[i]]){
-					handler = handler.intersection( data.herbs[tmp_in[i]].link );
-				} else {
-					continue;
-				}
+		let handler = Object.keys(data.formulas);
+		for (var i=0; i < tmp_in.length ; i++){
+			if ( data.herbs[tmp_in[i]] ){
+				handler = handler.intersection( data.herbs[tmp_in[i]].link );
+			} else {
+				handler = handler.intersection( [] );
 			}
-			for (var j=0; j < tmp_out.length ; j++){
-				if (data.herbs[tmp_out[j]]){
-					handler = handler.diff( data.herbs[tmp_out[j]].link );
-				} else {
-					continue;
-				}
-			}
-
-			$scope.results = handler;
 		}
+		for (var j=0; j < tmp_out.length ; j++){
+			if (data.herbs[tmp_out[j]]){
+				handler = handler.diff( data.herbs[tmp_out[j]].link );
+			} else {
+				continue;
+			}
+		}
+
+    if( $scope.formulaName && $scope.formulaName.length > 0){
+        $scope.results = handler.intersection( tmp_formula )
+    } else {
+        $scope.results = handler;
+    }
+
 		delete $scope.fmlIdx
 	};
 
@@ -109,15 +117,15 @@ app.controller('FormulaCtrl', ['$scope', '$q', 'loadSrc', 'copyright', '$uibModa
 
 	};
 
-  $scope.searchByFormulaName = function(){
-    var formulaName = $scope.formulaName.map(function(item) { return item.formulas })[0];
-    console.log(formulaName)
-    if( keys.formulas.indexOf(formulaName) > -1 ){
-      $scope.results = [formulaName]
-    } else {
-      $scope.results = []
-    }
-  }
+  // $scope.searchByFormulaName = function(){
+  //   var formulaName = $scope.formulaName.map(function(item) { return item.formulas })[0];
+  //   console.log(formulaName)
+  //   if( keys.formulas.indexOf(formulaName) > -1 ){
+  //     $scope.results = [formulaName]
+  //   } else {
+  //     $scope.results = []
+  //   }
+  // }
 
 	$scope.addHerb = function(hb){
 		var included = $scope.inHerbs.filter(function(herb){return herb.herbs == hb}) // 이미 있다면 넣지 않음 (ng-repeat 오류 회피)
