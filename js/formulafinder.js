@@ -142,6 +142,7 @@ app.controller('FormulaCtrl', ['$scope', '$q', 'loadSrc', 'copyright', '$uibModa
       templateUrl: 'html/modal.html',
       controller: 'fangDetailCtrl',
       size: "sm",
+      windowClass: 'app-modal-window',
       resolve: {
         data: function () { return data },
         params: function() {return {formula: formula, index: index} }
