@@ -162,6 +162,7 @@ app.controller('FormulaCtrl', ['$scope', '$q', 'loadSrc', 'copyright', '$uibModa
 		delete $scope.outHerbs;
     delete $scope.fmlName;
 		delete $scope.results;
+    delete $scope.formulaFilter;
 
 		delete $scope.detail;
 		delete $scope.yack;
