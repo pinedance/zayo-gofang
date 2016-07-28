@@ -6,8 +6,8 @@ app.config(['$compileProvider', function ($compileProvider) {
 
 app.service('copyright', function(){
 	this.year = function(startYear){
-		let thisYear = new Date().getFullYear();
-		let expression = (thisYear > startYear)? (startYear + '-' + thisYear) : thisYear;
+		var thisYear = new Date().getFullYear();
+		var expression = (thisYear > startYear)? (startYear + '-' + thisYear) : thisYear;
 		return expression;
 }});
 
@@ -69,10 +69,10 @@ app.controller('FormulaCtrl', ['$scope', '$q', 'loadSrc', 'copyright', '$uibModa
   }
 
   $scope.find = function(){
-		let tmp_in = $scope.inHerbs.map(function(item) { return item.herbs });
-		let tmp_out = $scope.outHerbs.map(function(item) { return item.herbs });
-    let _formula = $scope.formulaName.map(function(item) { return item.formulas });
-    let tmp_formula = _formula.filter(function(item){ return keys.formulas.indexOf(item) > -1})
+		var tmp_in = $scope.inHerbs.map(function(item) { return item.herbs });
+		var tmp_out = $scope.outHerbs.map(function(item) { return item.herbs });
+    var _formula = $scope.formulaName.map(function(item) { return item.formulas });
+    var tmp_formula = _formula.filter(function(item){ return keys.formulas.indexOf(item) > -1})
 
 		if ( (tmp_in.length + tmp_out.length)===0 ){
       $scope.results = tmp_formula;
@@ -80,7 +80,7 @@ app.controller('FormulaCtrl', ['$scope', '$q', 'loadSrc', 'copyright', '$uibModa
       return;
     }
 
-		let handler = Object.keys(data.formulas);
+		var handler = Object.keys(data.formulas);
 		for (var i=0; i < tmp_in.length ; i++){
 			if ( data.herbs[tmp_in[i]] ){
 				handler = handler.intersection( data.herbs[tmp_in[i]].link );
