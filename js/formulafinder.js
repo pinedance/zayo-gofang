@@ -26,16 +26,16 @@ app.controller('FormulaCtrl', ['$scope', '$q', 'loadSrc', 'copyright', '$uibModa
 
 	var data, keys
 
-	loadSrc.formulas().success(function(d, s){
-		data = d
+	loadSrc.formulas().then(function(d){
+		data = d.data
 		keys = {
-			herbs: Object.keys(d.herbs),
-			formulas: Object.keys(d.formulas),
-			symptoms: Object.keys(d.symptoms)
+			herbs: Object.keys(data.herbs),
+			formulas: Object.keys(data.formulas),
+			symptoms: Object.keys(data.symptoms)
 		}
 		$scope.gotData = true
-    initDatas()
-    $scope.searchBy(0)
+    	initDatas()
+    	$scope.searchBy(0)
 	})
 
   function initDatas(){
@@ -117,16 +117,6 @@ app.controller('FormulaCtrl', ['$scope', '$q', 'loadSrc', 'copyright', '$uibModa
 
 	};
 
-  // $scope.searchByFormulaName = function(){
-  //   var formulaName = $scope.formulaName.map(function(item) { return item.formulas })[0];
-  //   console.log(formulaName)
-  //   if( keys.formulas.indexOf(formulaName) > -1 ){
-  //     $scope.results = [formulaName]
-  //   } else {
-  //     $scope.results = []
-  //   }
-  // }
-
 	$scope.addHerb = function(hb){
 		var included = $scope.inHerbs.filter(function(herb){return herb.herbs == hb}) // 이미 있다면 넣지 않음 (ng-repeat 오류 회피)
 		if (included.length > 0){ return }
@@ -142,6 +132,7 @@ app.controller('FormulaCtrl', ['$scope', '$q', 'loadSrc', 'copyright', '$uibModa
       templateUrl: 'html/modal.html',
       controller: 'fangDetailCtrl',
       size: "sm",
+      windowClass: 'app-modal-window',
       resolve: {
         data: function () { return data },
         params: function() {return {formula: formula, index: index} }
@@ -153,15 +144,15 @@ app.controller('FormulaCtrl', ['$scope', '$q', 'loadSrc', 'copyright', '$uibModa
     }, function () {
       $log.info('Modal dismissed at: ' + new Date());
     });
-
 		delete $scope.yackIdx
 	};
 
 	$scope.resetForms = function(){
 		delete $scope.inHerbs;
 		delete $scope.outHerbs;
-    delete $scope.fmlName;
+    	delete $scope.fmlName;
 		delete $scope.results;
+    	delete $scope.formulaFilter;
 
 		delete $scope.detail;
 		delete $scope.yack;

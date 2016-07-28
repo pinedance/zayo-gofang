@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="vendor/bootstrap.min.css"><!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">-->
 		<link rel="stylesheet" href="vendor/ng-tags-input.min.css">
 		<link rel="stylesheet" href="vendor/sticky-footer.css">
+		<link rel="stylesheet" href="css/formulafinder.css">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<style>
 		/*.modal-body {
@@ -67,12 +68,7 @@
 			<div class="row" ng-show="true">
 				<div class="col-sm-12">
 					<!-- 처방이름 -->
-						<!-- <tags-input ng-model="formulaName" placeholder="처방 이름" min-length=1 display-property="formulas" on-tag-added="searchByFormulaName()">
-							<auto-complete source="loadItems($query, 'formulas')" min-length=1 debounce-delay=50></auto-complete>
-						</tags-input> -->
-						<input class="form-control" ng-model="formulaFilter" placeholder="처방 이름">
-							<!-- <auto-complete source="loadItems($query, 'formulas')" min-length=1 debounce-delay=50></auto-complete> -->
-						</input>
+						<input class="form-control" ng-model="formulaFilter" placeholder="처방 이름"></input>
 				</div>
 			</div>
 			<div class="row">
@@ -83,17 +79,6 @@
 					</div>
 			</div>
 		</div>
-
-		<!-- <div class="container-fluid">
-		<div class="row">
-			<div class="col-sm-12">
-				<div clsss="list-group">
-					<a href="" class="list-group-item" ng-class="{'active': $index===fmlIdx}" ng-repeat="formula in results" ng-click="showDetail(formula, $index)" ng-bind="formula"></a>
-				</div>
-	  		</div>
-		</div>
-
-		</div> -->
 
 		<div ng-include="'html/footer.html'"></div>
 
