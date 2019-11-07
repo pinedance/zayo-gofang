@@ -27,123 +27,132 @@
 
 <body>
 
-		<div id="navibar">
+<div id="app">
+	
+	<div id="navibar">
 
-			<nav class="navbar navbar-default navbar-fixed-top">
-				<div class="container-fluid">
-					<!-- Brand and toggle get grouped for better mobile display -->
-					<div class="navbar-header">
-						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-							data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-							<span class="sr-only">Toggle navigation</span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-						</button>
-						<a class="navbar-brand" href="" ng-click="reload()">goFang</a>
-					</div>
-
-					<!-- Collect the nav links, forms, and other content for toggling -->
-					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-
-						<ul class="nav navbar-nav">
-							<li ng-repeat="searchOpt in searchOpts" ng-class="{'active':$index==searchTab}">
-								<a ng-bind="searchOpt.label" ng-click="searchBy($index)"></a>
-							</li>
-						</ul>
-						<form class="navbar-form navbar-left" role="search">
-							<button type="submit" class="btn btn-default btn-info" ng-click="resetForms()">Reset</button>
-						</form>
-						<ul class="nav navbar-nav navbar-right">
-							<li>
-								<a href="https://pinedance.github.io/blog/2016/04/24/%EA%B3%A0%EB%B0%A9%EA%B2%80%EC%83%89%EA%B8%B0-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8.html"
-									target="_blank">사용방법</a>
-							</li>
-							<li>
-								<a href="https://zayosoft.github.io" target="_blank">Zayo Soft</a>
-							</li>
-						</ul>
-					</div><!-- /.navbar-collapse -->
-				</div><!-- /.container-fluid -->
-			</nav>
-
-
-		</div>
-
-		<div class="container-fluid" style="padding-top: 60px;">
-			<div class="row" ng-show="true">
-				<div class="col-sm-12">
-					<h3>고방<small>(상한/금궤)</small>검색기</h3>
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="container-fluid">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+						data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="" ng-click="reload()">goFang</a>
 				</div>
+
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+					<ul class="nav navbar-nav">
+						<li ng-repeat="searchOpt in searchOpts" ng-class="{'active':$index==searchTab}">
+							<a ng-bind="searchOpt.label" ng-click="searchBy($index)"></a>
+						</li>
+					</ul>
+					<form class="navbar-form navbar-left" role="search">
+						<button type="submit" class="btn btn-default btn-info" ng-click="resetForms()">Reset</button>
+					</form>
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<a href="https://pinedance.github.io/blog/2016/04/24/%EA%B3%A0%EB%B0%A9%EA%B2%80%EC%83%89%EA%B8%B0-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8.html"
+								target="_blank">사용방법</a>
+						</li>
+						<li>
+							<a href="https://zayosoft.github.io" target="_blank">Zayo Soft</a>
+						</li>
+					</ul>
+				</div><!-- /.navbar-collapse -->
+			</div><!-- /.container-fluid -->
+		</nav>
+
+
+	</div>
+
+	<div class="container-fluid" style="padding-top: 60px;">
+		<div class="row">
+			<div class="col-sm-12">
+				<h3>고방<small>(상한/금궤)</small>검색기</h3>
 			</div>
 		</div>
+	</div>
 
-		<div class="container-fluid" ng-show="gotData && searchTab==0">
-				<div class="row" ng-show="true">
-					<div class="col-sm-6" >
-					<!-- 포함하는 본초 -->
-						<tags-input ng-model="inHerbs" placeholder="포함하는 본초" min-length=1 display-property="herbs" on-tag-added="find()" on-tag-removed="find()">
-							<auto-complete source="loadItems($query, 'herbs')" min-length=1 debounce-delay=50></auto-complete>
-						</tags-input>
-					<!-- 제외하는 본초 -->
-						<tags-input ng-model="outHerbs" placeholder="제외하는 본초" min-length=1 display-property="herbs" on-tag-added="find()" on-tag-removed="find()">
-							<auto-complete source="loadItems($query, 'herbs')" min-length=1 debounce-delay=50></auto-complete>
-						</tags-input>
-					</div>
-					<div class="col-sm-6">
-						<!-- 찾는 처방명 -->
-						<tags-input ng-model="formulaName" placeholder="찾는 처방이름" min-length=2 display-property="formulas" on-tag-added="find()" on-tag-removed="find()">
-							<auto-complete source="loadItems($query, 'formulas')" min-length=1 debounce-delay=50></auto-complete>
-						</tags-input>
-						<!-- 찾는 증상 -->
-							<tags-input ng-model="inSymp" placeholder="찾는 증상" min-length=1 display-property="symptoms" on-tag-added="findHerbsymp()" on-tag-removed="findHerbsymp()">
-								<auto-complete source="loadItems($query, 'symptoms')" min-length=1 debounce-delay=50></auto-complete>
-							</tags-input>
-							<button class="btn btn-warning" ng-repeat="symp in symptoms" ng-bind="symp"></button>
-							<button class="btn btn-success" ng-repeat="hbsy in herbssymptoms" ng-click="addHerb(hbsy)" ng-bind="hbsy"></button>
-					</div>
+	<div class="container-fluid" ng-show="gotData && searchTab==0">
+			<div class="row">
+				<div class="col-sm-6" >
+
+				<!-- 포함하는 본초 -->
+					<tags-input ng-model="inHerbs" placeholder="포함하는 본초" min-length=1 display-property="herbs" on-tag-added="find()" on-tag-removed="find()">
+						<auto-complete source="loadItems($query, 'herbs')" min-length=1 debounce-delay=50></auto-complete>
+					</tags-input>
+
+				<!-- 제외하는 본초 -->
+					<tags-input ng-model="outHerbs" placeholder="제외하는 본초" min-length=1 display-property="herbs" on-tag-added="find()" on-tag-removed="find()">
+						<auto-complete source="loadItems($query, 'herbs')" min-length=1 debounce-delay=50></auto-complete>
+					</tags-input>
+
 				</div>
+				<div class="col-sm-6">
 
-				<div class="row">
-					<div class="col-sm-12">
-						<div clsss="list-group">
-							<a href="" class="list-group-item" ng-class="{'active': $index===fmlIdx}" ng-repeat="formula in results" ng-click="showDetail(formula, $index)" ng-bind="formula"></a>
-						</div>
-						</div>
-				</div>
-		</div>
+					<!-- 찾는 처방명 -->
+					<tags-input ng-model="formulaName" placeholder="찾는 처방이름" min-length=2 display-property="formulas" on-tag-added="find()" on-tag-removed="find()">
+						<auto-complete source="loadItems($query, 'formulas')" min-length=1 debounce-delay=50></auto-complete>
+					</tags-input>
 
-		<div class="container-fluid" ng-show="gotData && searchTab==1">
-			<div class="row" ng-show="true">
-				<div class="col-sm-12">
-					<!-- 처방이름 -->
-						<input class="form-control" ng-model="formulaFilter" placeholder="처방 이름"></input>
+					<!-- 찾는 증상 -->
+					<tags-input ng-model="inSymp" placeholder="찾는 증상" min-length=1 display-property="symptoms" on-tag-added="findHerbsymp()" on-tag-removed="findHerbsymp()">
+						<auto-complete source="loadItems($query, 'symptoms')" min-length=1 debounce-delay=50></auto-complete>
+					</tags-input>
+					<button class="btn btn-warning" ng-repeat="symp in symptoms" ng-bind="symp"></button>
+					<button class="btn btn-success" ng-repeat="hbsy in herbssymptoms" ng-click="addHerb(hbsy)" ng-bind="hbsy"></button>
 				</div>
 			</div>
+
 			<div class="row">
 				<div class="col-sm-12">
 					<div clsss="list-group">
-						<a href="" class="list-group-item" ng-class="{'active': $index===fmlIdx}" ng-repeat="formula in formulas | filter:formulaFilter" ng-click="showDetail(formula, $index)" ng-bind="formula"></a>
+						<a href="" class="list-group-item" ng-class="{'active': $index===fmlIdx}" ng-repeat="formula in results" ng-click="showDetail(formula, $index)" ng-bind="formula"></a>
 					</div>
 					</div>
 			</div>
+	</div>
+
+	<div class="container-fluid" ng-show="gotData && searchTab==1">
+		<div class="row" ng-show="true">
+			<div class="col-sm-12">
+				<!-- 처방이름 -->
+					<input class="form-control" ng-model="formulaFilter" placeholder="처방 이름"></input>
+			</div>
 		</div>
-
-		<div id="footer">
-
-			<footer class="footer">
-				<div class="container">
-					<p class="text-muted  text-center">
-						&copy; {{copyrightYear}} ZAYO SOFT <a href='https://pinedance.github.io/blog/'
-							target='_blank'><kbd>Blog</kbd></a><span>
-							/ Contact or Report issue : <a href='https://github.com/pinedance/zayo-gofang/issues'
-								target='_blank'><kbd>Github</kbd></a></span>
-					</p>
-					<!--<small class="text-muted">This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</small>-->
+		<div class="row">
+			<div class="col-sm-12">
+				<div clsss="list-group">
+					<a href="" class="list-group-item" ng-class="{'active': $index===fmlIdx}" ng-repeat="formula in formulas | filter:formulaFilter" ng-click="showDetail(formula, $index)" ng-bind="formula"></a>
 				</div>
-			</footer>
-
+				</div>
 		</div>
+	</div>
+
+	<div id="footer">
+
+		<footer class="footer">
+			<div class="container">
+				<p class="text-muted  text-center">
+					&copy; {{copyrightYear}} ZAYO SOFT <a href='https://pinedance.github.io/blog/'
+						target='_blank'><kbd>Blog</kbd></a><span>
+						/ Contact or Report issue : <a href='https://github.com/pinedance/zayo-gofang/issues'
+							target='_blank'><kbd>Github</kbd></a></span>
+				</p>
+				<!--<small class="text-muted">This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</small>-->
+			</div>
+		</footer>
+
+	</div>
+
+</div>
 
 <!--   script............................................................................................-->
 	<!-- Optional JavaScript -->
@@ -159,8 +168,10 @@
 
 <!--   script............................................................................................-->
 	<script src="vendor/vue.min.js"></script>
-	<script src="vendor/voerro-vue-tagsinput.js"></script>
+	<script src="vendor/axios.min.js"></script>
+	
 	<!-- https://github.com/voerro/vue-tagsinput -->
+	<script src="vendor/voerro-vue-tagsinput.js"></script>
 
 	<script src="js/formulafinder.js"></script>
 
